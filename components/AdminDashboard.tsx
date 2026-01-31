@@ -262,17 +262,16 @@ export const AdminDashboard: React.FC<Props> = ({ onNavigate, settings, onUpdate
               continue;
           }
           try {
-              const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                  method: "POST",
-                  headers: { 
-                      "Authorization": `Bearer ${key}`, 
-                      "Content-Type": "application/json" 
-                  },
-                  body: JSON.stringify({
-                      model: "llama3-8b-8192",
-                      messages: [{ role: "user", content: "hi" }]
-                  })
-              });
+              // लाइन 265 से 275 को इससे बदलें
+const response = await fetch("/api/groq", { // सीधे Groq को नहीं, अपने सर्वर (/api/groq) को बुलाओ
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        key: key, // हम चाबी को सुरक्षित रूप से सर्वर को भेज रहे हैं
+        messages: [{ role: "user", content: "Test" }]
+    })
+});
+
               
               if (response.ok) {
                   statuses[i] = "Valid";
